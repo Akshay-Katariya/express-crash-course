@@ -7,8 +7,10 @@ require("./utils/init_mongodb");
 const AuthRoute = require("./Routes/Auth.route");
 
 const app = express();
-
 app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // to support form data
 
 app.get("/", (req, res) => {
   res.send("Hello 👋");

@@ -7,6 +7,11 @@ const userSchema = new Schema({
     required: true,
     lowercase: true,
     unique: true,
+    validate: {
+      validator: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      message: (props) =>
+        `Please enter correct email id ${props.value} is invalid email`,
+    },
   },
   password: {
     type: String,
