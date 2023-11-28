@@ -5,7 +5,7 @@ module.exports = {
   signAccessToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = {};
-      const secret = "1234567890";
+      const secret = process.env.ACCESS_TOKEN_SECRET;
       const options = {
         expiresIn: "30m",
         issuer: "https://akshay-katariya.github.io/portfolio",
