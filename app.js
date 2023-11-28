@@ -2,12 +2,15 @@ const express = require("express");
 const morgan = require("morgan");
 const createError = require("http-errors");
 require("dotenv").config();
+const AuthRoute = require("./Routes/Auth.route");
 
 const app = express();
 
 app.get("/", (req, res) => {
   res.send("Hello 👋");
 });
+
+app.use("/auth/", AuthRoute);
 
 app.use((req, res, next) => {
   // method 1:
