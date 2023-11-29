@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const createError = require("http-errors");
+const { verifyAccessToken } = require("./Utils/jwt_helper");
 require("dotenv").config();
 require("./utils/init_mongodb");
 
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // to support form data
 
-app.get("/", (req, res) => {
+app.get("/", verifyAccessToken, (req, res) => {
   res.send("Hello 👋");
 });
 

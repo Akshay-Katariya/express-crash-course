@@ -20,4 +20,15 @@ module.exports = {
       });
     });
   },
+  verifyAccessToken: (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) return next(createError.Unauthorized());
+    const bearerToken = authHeader.split(" ");
+    const token = bearerToken[1];
+    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
+      if (error) return next(createError.Unauthorized());
+      req.payload = payload;
+      next();
+    });
+  },
 };
