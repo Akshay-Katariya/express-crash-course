@@ -2,6 +2,12 @@ GET http://localhost:3000
 
 ### Login Rout
 POST  http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email":"akshay@gmail.com",
+    "password":"1234"
+} 
 
 ### Register Rout
 POST  http://localhost:3000/auth/register

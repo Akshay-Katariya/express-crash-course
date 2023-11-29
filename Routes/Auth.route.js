@@ -29,8 +29,25 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", (req, res) => {
-  res.send("login route");
+router.post("/login", async (req, res, next) => {
+  try {
+    const result = await authSchema.validateAsync(req.body);
+    const user = await User.findOne({ email: result.email });
+
+    if (!user) throw createError.NotFound("User not registered");
+
+    const isMatch = await user.isPasswordValid(result.password);
+
+    if (!isMatch) throw createError.Unauthorized("Invalid email / password");
+
+    const accessToken = await signAccessToken(user.id);
+    res.send({ accessToken });
+  } catch (error) {
+    // if we remove this isJoi check it will return joi validation message back
+    if (error.isJoi)
+      return next(createError.BadRequest("email / password validation failed"));
+    next(error);
+  }
 });
 
 router.post("/refresh-token", (req, res) => {
